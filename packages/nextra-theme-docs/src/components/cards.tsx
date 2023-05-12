@@ -13,6 +13,9 @@ const classes = {
   ),
   title: cn(
     'nx-flex nx-font-semibold nx-items-start nx-gap-2 nx-p-4 nx-text-gray-700 hover:nx-text-gray-900'
+  ),
+  description: cn(
+    'nx-p-4 nx-pt-0 nextra-card-description'
   )
 }
 
@@ -28,12 +31,14 @@ export function Card({
   icon,
   image,
   arrow,
+  description,
   href,
   ...props
 }: {
   children: ReactNode
   title: string
   icon: ReactNode
+  description?: string,
   image?: boolean
   arrow?: boolean
   href: string
@@ -62,6 +67,9 @@ export function Card({
             {title}
             {animatedArrow}
           </span>
+          <p className={classes.description}>
+            {description}
+          </p>
         </span>
       </Anchor>
     )
@@ -86,6 +94,9 @@ export function Card({
         {title}
         {animatedArrow}
       </span>
+      <p className={classes.description}>
+        {description}
+      </p>
     </Anchor>
   )
 }

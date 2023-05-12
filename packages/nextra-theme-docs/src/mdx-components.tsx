@@ -48,7 +48,7 @@ function HeadingLink({
       className={cn(
         'nx-font-semibold nx-tracking-tight nx-text-slate-900 dark:nx-text-slate-100',
         {
-          h2: 'nx-mt-10 nx-border-b nx-pb-1 nx-text-3xl nx-border-neutral-200/70 contrast-more:nx-border-neutral-400 dark:nx-border-primary-100/10 contrast-more:dark:nx-border-neutral-400',
+          h2: 'nx-mt-8 nx-border-b nx-pb-1 nx-text-3xl nx-border-neutral-200/70 contrast-more:nx-border-neutral-400 dark:nx-border-primary-100/10 contrast-more:dark:nx-border-neutral-400',
           h3: 'nx-mt-8 nx-text-2xl',
           h4: 'nx-mt-8 nx-text-xl',
           h5: 'nx-mt-8 nx-text-lg',
@@ -195,13 +195,13 @@ export const getComponents = ({
     h6: props => <HeadingLink tag="h6" context={context} {...props} />,
     ul: props => (
       <ul
-        className="nx-mt-6 nx-list-disc first:nx-mt-0 ltr:nx-ml-6 rtl:nx-mr-6"
+        className="nx-mt-4 nx-list-disc first:nx-mt-0 ltr:nx-ml-6 rtl:nx-mr-6"
         {...props}
       />
     ),
     ol: props => (
       <ol
-        className="nx-mt-6 nx-list-decimal first:nx-mt-0 ltr:nx-ml-6 rtl:nx-mr-6"
+        className="nx-mt-4 nx-list-decimal first:nx-mt-0 ltr:nx-ml-6 rtl:nx-mr-6"
         {...props}
       />
     ),
@@ -223,7 +223,7 @@ export const getComponents = ({
         {...props}
       />
     ),
-    p: props => <p className="nx-mt-6 nx-leading-7 first:nx-mt-0" {...props} />,
+    p: props => <p className="nx-mt-2 nx-leading-7 first:nx-mt-0" {...props} />,
     tr: Tr,
     th: Th,
     td: Td,

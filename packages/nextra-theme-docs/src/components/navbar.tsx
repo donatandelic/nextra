@@ -8,6 +8,7 @@ import type { Item, PageItem, MenuItem } from 'nextra/normalize-pages'
 import { renderComponent } from '../utils'
 import { useFSRoute } from 'nextra/hooks'
 import { Anchor } from './anchor'
+import { ThemeSwitch } from './theme-switch'
 
 export type NavBarProps = {
   flatDirectories: Item[]
@@ -175,6 +176,8 @@ export function Navbar({ flatDirectories, items }: NavBarProps): ReactElement {
           directories: flatDirectories,
           className: 'nx-hidden md:nx-inline-block mx-min-w-[200px]'
         })}
+
+        <ThemeSwitch lite={true} />
 
         {config.project.link ? (
           <Anchor

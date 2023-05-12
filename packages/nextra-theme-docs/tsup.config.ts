@@ -8,5 +8,6 @@ export default defineConfig({
   dts: true,
   external: ['nextra'],
   outExtension: () => ({ js: '.js' }),
-  target: tsconfig.compilerOptions.target as 'es2016'
+  target: tsconfig.compilerOptions.target as 'es2016',
+  outDir: "../../../orbis-docs/theme"
 })
