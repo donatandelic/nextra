@@ -94,7 +94,7 @@ const File = memo<FileProps>(({ label, name, active }) => (
   <li
     className={cn(
       'nx-flex nx-list-none',
-      active && 'nx-text-primary-600 contrast-more:nx-underline'
+      active && 'nx-text-primary-600 dark:nx-text-primary-500 contrast-more:nx-underline'
     )}
   >
     <a className="nx-inline-flex nx-cursor-default nx-items-center nx-py-1">
