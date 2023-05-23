@@ -7,7 +7,7 @@ import type { DocsThemeConfig } from '../constants'
 import { DEEP_OBJECT_KEYS, DEFAULT_THEME, themeSchema } from '../constants'
 import { metaSchema } from 'nextra/normalize-pages'
 import { MenuProvider } from './menu'
-import type { ZodError } from 'zod'
+import { ZodError } from 'zod'
 
 type Config<FrontMatterType = FrontMatter> = DocsThemeConfig &
   Pick<
@@ -51,6 +51,8 @@ function validateMeta(pageMap: PageMapItem[]) {
         try {
           metaSchema.parse(data)
         } catch (error) {
+          if((error as ZodError).issues.filter(v => v.code === "unrecognized_keys").length === (error as ZodError).issues.length) continue
+
           console.error(
             `[nextra-theme-docs] Error validating _meta.json file for "${key}" property.\n\n${normalizeZodMessage(
               error
@@ -89,11 +91,13 @@ export const ConfigProvider = ({
     try {
       themeSchema.parse(theme)
     } catch (error) {
-      console.error(
-        `[nextra-theme-docs] Error validating theme config file.\n\n${normalizeZodMessage(
-          error
-        )}`
-      )
+      if((error as ZodError).issues.filter(v => v.code === "unrecognized_keys").length !== (error as ZodError).issues.length){
+        console.error(
+          `[nextra-theme-docs] Error validating theme config file.\n\n${normalizeZodMessage(
+            error
+          )}`
+        )
+      }
     }
     validateMeta(pageOpts.pageMap)
     isValidated = true

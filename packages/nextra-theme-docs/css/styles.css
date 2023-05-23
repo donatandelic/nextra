@@ -204,6 +204,10 @@ input[type='search'] {
   color: #ffffff66;
 }
 
+.nextra-card-icon svg {
+  color: inherit
+}
+
 .dark .nextra-card:hover svg {
   color: currentColor;
 }

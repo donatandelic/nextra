@@ -274,3 +274,7 @@ export {
   SkipNavLink,
   ThemeSwitch
 } from './components'
+
+export {
+  CustomIconsList
+} from './utils/icons'

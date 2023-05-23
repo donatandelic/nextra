@@ -13,7 +13,7 @@ interface NavLinkProps {
 
 const classes = {
   link: cn(
-    'nx-flex nx-max-w-[50%] nx-items-center nx-gap-1 nx-py-4 nx-text-base nx-font-medium nx-text-gray-600 nx-transition-colors [word-break:break-word] hover:nx-text-primary-600 dark:nx-text-gray-300 md:nx-text-lg'
+    'nx-flex nx-max-w-[50%] nx-items-center nx-gap-1 nx-py-4 nx-text-base nx-font-medium nx-text-gray-600 nx-transition-colors [word-break:break-word] hover:nx-text-primary-600 dark:nx-text-gray-300 dark:hover:nx-text-gray-100 md:nx-text-md'
   ),
   icon: cn('nx-inline nx-h-5 nx-shrink-0')
 }
@@ -29,8 +29,8 @@ export const NavLinks = ({
   let prev = navigation.prev && flatDirectories[currentIndex - 1]
   let next = navigation.next && flatDirectories[currentIndex + 1]
 
-  if (prev && !prev.isUnderCurrentDocsTree) prev = false
-  if (next && !next.isUnderCurrentDocsTree) next = false
+  if (prev && (!prev.isUnderCurrentDocsTree || !prev.route || prev.route === "#")) prev = false
+  if (next && (!next.isUnderCurrentDocsTree || !next.route || next.route === "#")) next = false
 
   if (!prev && !next) return null
 
