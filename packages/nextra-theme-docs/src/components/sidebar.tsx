@@ -239,13 +239,14 @@ function Separator({ title }: { title: string }): ReactElement {
   )
 }
 
-type PageItemWithIcon = PageItem & { icon: keyof typeof CustomIconsList }
+type PageItemWithIcon = PageItem & { icon: keyof typeof CustomIconsList, activeRegex?: "string" }
 
 function ItemWithIcon({ item }: { item: PageItemWithIcon }): ReactElement {
   const route = useFSRoute()
   const onFocus = useContext(OnFocuseItemContext)
 
-  const active = [route, route + '/'].includes(item.href + '/') || (route + '/').startsWith(item.href + '/')
+  const regex = item.activeRegex ? new RegExp(item.activeRegex, "i") : false
+  const active = regex ? regex.test(route) : [route, route + '/'].includes(item.href + '/') || (route + '/').startsWith(item.href + '/')
 
   const { setMenu } = useMenu()
   const config = useConfig()
