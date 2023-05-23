@@ -5,6 +5,8 @@ import cn from 'clsx'
 import { ArrowRightIcon } from 'nextra/icons'
 import type { Item } from 'nextra/normalize-pages'
 
+const capitalize = (word: string): string => word.split(" ").reduce((acc: string, current: string) => acc + " " + current[0].toUpperCase() + current.slice(1) , "")
+
 export function Breadcrumb({
   activePath
 }: {
@@ -30,12 +32,12 @@ export function Breadcrumb({
                         'hover:nx-text-gray-900 dark:hover:nx-text-gray-200'
                     ]
               )}
-              title={item.title}
+              title={capitalize(item.title)}
             >
               {isLink && !isActive ? (
-                <Anchor href={item.route}>{item.title}</Anchor>
+                <Anchor href={item.route}>{capitalize(item.title)}</Anchor>
               ) : (
-                item.title
+                capitalize(item.title)
               )}
             </div>
           </Fragment>

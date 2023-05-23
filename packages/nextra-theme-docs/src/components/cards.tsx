@@ -15,7 +15,7 @@ const classes = {
     'nx-flex nx-font-semibold nx-items-start nx-gap-2 nx-p-4 nx-text-gray-700 hover:nx-text-gray-900'
   ),
   description: cn(
-    'nx-p-4 nx-pt-0 nextra-card-description'
+    'nx-p-4 nx-pt-0 nextra-card-description nx-text-sm'
   )
 }
 
@@ -59,7 +59,8 @@ export function Card({
         <span
           className={cn(
             classes.title,
-            'dark:nx-text-gray-300 dark:hover:nx-text-gray-100'
+            'dark:nx-text-gray-300 dark:hover:nx-text-gray-100',
+            description && 'nx-pb-2' || ''
           )}
         >
           {icon}
@@ -67,10 +68,10 @@ export function Card({
             {title}
             {animatedArrow}
           </span>
-          <p className={classes.description}>
-            {description}
-          </p>
         </span>
+        {description && <p className={classes.description}>
+          {description}
+        </p>}
       </Anchor>
     )
   }
@@ -87,16 +88,17 @@ export function Card({
       <span
         className={cn(
           classes.title,
-          'dark:nx-text-neutral-200 dark:hover:nx-text-neutral-50'
+          'dark:nx-text-neutral-200 dark:hover:nx-text-neutral-50',
+          description && 'nx-pb-2' || ''
         )}
       >
         {icon}
         {title}
         {animatedArrow}
       </span>
-      <p className={classes.description}>
-        {description}
-      </p>
+      {description && <p className={classes.description}>
+            {description}
+      </p>}
     </Anchor>
   )
 }

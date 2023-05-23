@@ -21,6 +21,7 @@ import { LocaleSwitch } from './locale-switch'
 import { ArrowRightIcon, ExpandIcon } from 'nextra/icons'
 import { Collapse } from './collapse'
 import { Anchor } from './anchor'
+import { CustomIconsList } from '../utils/icons'
 
 const TreeState: Record<string, boolean> = Object.create(null)
 
@@ -43,7 +44,7 @@ const capitalize = (word: string): string => word.split(" ").reduce((acc: string
 
 const classes = {
   link: cn(
-    'nx-flex nx-rounded nx-px-2 nx-py-1.5 nx-text-sm nx-transition-colors [word-break:break-word]',
+    'nx-flex nx-rounded nx-px-2 nx-py-1 nx-text-sm nx-transition-colors [word-break:break-word]',
     'nx-cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:nx-border'
   ),
   inactive: cn(
@@ -56,7 +57,20 @@ const classes = {
     'nx-bg-primary-100 nx-font-semibold nx-text-primary-800 dark:nx-bg-primary-400/10 dark:nx-text-primary-500',
     'contrast-more:nx-border-primary-500 contrast-more:dark:nx-border-primary-500'
   ),
-  list: cn('nx-flex nx-flex-col nx-gap-1'),
+  withIcon: cn(
+    'nx-py-1.5 nx-font-medium nx-flex nx-items-center'
+  ),
+  withIconInactive: cn(
+    'hover:nx-bg-gray-100 hover:nx-text-gray-900',
+    'dark:hover:nx-bg-primary-100/5 dark:hover:nx-text-gray-50',
+    'contrast-more:nx-text-gray-900 contrast-more:dark:nx-text-gray-50',
+    'contrast-more:nx-border-transparent contrast-more:hover:nx-border-gray-900 contrast-more:dark:hover:nx-border-gray-50'
+  ),
+  withIconActive: cn(
+    'nx-text-primary-800 dark:nx-text-primary-500',
+    'contrast-more:nx-border-primary-500 contrast-more:dark:nx-border-primary-500'
+  ),
+  list: cn('nx-flex nx-flex-col nx-gap-0.5'),
   border: cn(
     'nx-relative before:nx-absolute before:nx-inset-y-1',
     'before:nx-w-px before:nx-bg-gray-200 before:nx-content-[""] dark:before:nx-bg-neutral-800',
@@ -125,6 +139,7 @@ function FolderImpl({ item, anchors }: FolderProps): ReactElement {
   return (
     <>
     {!isLink && level === 1 ?
+
       <>
         <Separator title={capitalize(item.title)} />
         <Collapse className="ltr:nx-pr-0 rtl:nx-pl-0 nx-pt-1" isOpen={level === 1 ? true : open}>
@@ -138,6 +153,7 @@ function FolderImpl({ item, anchors }: FolderProps): ReactElement {
           ) : null}
         </Collapse>
       </> :
+
       <li className={cn({ open, active })}>
         <ComponentToUse
           href={isLink ? item.route : undefined}
@@ -223,11 +239,49 @@ function Separator({ title }: { title: string }): ReactElement {
   )
 }
 
+type PageItemWithIcon = PageItem & { icon: keyof typeof CustomIconsList }
+
+function ItemWithIcon({ item }: { item: PageItemWithIcon }): ReactElement {
+  const route = useFSRoute()
+  const onFocus = useContext(OnFocuseItemContext)
+
+  const active = [route, route + '/'].includes(item.href + '/') || (route + '/').startsWith(item.href + '/')
+
+  const { setMenu } = useMenu()
+  const config = useConfig()
+
+  const IconComponent = CustomIconsList[item.icon]
+
+  return <li className={cn(classes.list)}>
+    <Anchor
+        href={item.href}
+        newWindow={item.newWindow}
+        className={cn(classes.link, classes.withIcon, active && classes.withIconActive || classes.withIconInactive)}
+        onClick={() => {
+          setMenu(false)
+        }}
+        onFocus={() => {
+          onFocus?.(item.route)
+        }}
+        onBlur={() => {
+          onFocus?.(null)
+        }}
+    >
+      <IconComponent style={{ height: "1.25em", width: "1.25em", marginRight: ".5rem" }} />
+      {renderComponent(config.sidebar.titleComponent, {
+        title: item.title,
+        type: item.type,
+        route: item.route
+      })}
+    </Anchor>
+  </li>
+}
+
 function File({
   item,
   anchors
 }: {
-  item: PageItem | Item
+  item: PageItem | Item | PageItemWithIcon
   anchors: Heading[]
 }): ReactElement {
   const route = useFSRoute()
@@ -244,6 +298,8 @@ function File({
   }
 
   return (
+    (item as PageItemWithIcon).icon ? 
+    <ItemWithIcon item={item as PageItemWithIcon} /> :
     <li className={cn(classes.list, { active })}>
       <Anchor
         href={(item as PageItem).href || item.route}

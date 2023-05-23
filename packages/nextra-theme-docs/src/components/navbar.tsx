@@ -148,9 +148,9 @@ export function Navbar({ flatDirectories, items }: NavBarProps): ReactElement {
               (page.withIndexPage ? page.route : page.firstChildRoute) || href
           }
 
-          const isActive =
-            page.route === activeRoute ||
-            activeRoute.startsWith(page.route + '/')
+          const isActive = page.href ? page.href === activeRoute :
+            (page.route === activeRoute ||
+            activeRoute.startsWith(page.route + '/'))
 
           return (
             <Anchor
